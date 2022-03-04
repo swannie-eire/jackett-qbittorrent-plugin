@@ -56,4 +56,4 @@ API Key in Jackett web UI:
 ![](https://i.imgur.com/87yZeAU.png)
 
 ### Screenshot
-![]([https://i.imgur.com/O6AGx4W.png)
+![](https://i.imgur.com/0FqIOar.png)
