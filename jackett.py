@@ -1,4 +1,4 @@
-#VERSION: 3.5
+# VERSION: 3.6
 # AUTHORS: Diego de las Heras (ngosang@hotmail.es)
 # CONTRIBUTORS: ukharley
 #               hannsen (github.com/hannsen)
@@ -135,15 +135,20 @@ class jackett(object):
             else:
                 res['name'] = '%s [%s] [%s] seedtime[%s] ratio[%s] dl[%s] ul[%s]'  % (title, tracker, tracker_type, minimum_seed, minimum_ratio, dl_factor, up_factor)
 
-            res['link'] = result.find(self.generate_xpath('magneturl'))
-            if res['link'] is not None:
-                res['link'] = res['link'].attrib['value']
-            else:
-                res['link'] = result.find('link')
+            #checking if there is a dl link and if so using that instead of the magnet link
+            res['link'] = result.find('link')
+            if not res['link'].text:
+                res['link'] = result.find(self.generate_xpath('magneturl'))
                 if res['link'] is not None:
-                    res['link'] = res['link'].text
+                    res['link'] = res['link'].attrib['value']
                 else:
-                    continue
+                    res['link'] = result.find('link')
+                    if res['link'] is not None:
+                        res['link'] = res['link'].text
+                    else:
+                        continue
+            else:
+                res['link'] = result.find('link').text
 
             res['size'] = result.find('size')
 
